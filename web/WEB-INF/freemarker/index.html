@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" content="text/html">
+    <title>Index of Zachary's Blog</title>
+    <link rel="stylesheet" href="${request.contextPath}/resources/css/style.css">
+    <script type="text/javascript" src="${request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript" src="${request.contextPath}/resources/js/vue.js"></script>
+    <script type="text/javascript" src="${request.contextPath}/resources/js/sweetalert2.all.min.js"></script>
+    <script type="text/javascript" >
+        //文字滚动
+        (function($){
+            $.fn.textSlider = function(settings){
+                settings = jQuery.extend({
+                    speed:"normal",
+                    line: 2,
+                    timer: 1000
+                },settings);
+                return this.each(function(){
+                    $.fn.textSlider.scllor($(this),settings)
+                })
+            };
+            $.fn.textSlider.scllor = function($this,settings){
+                var ul = $("ul:eq(0)",$this);
+                var timerID;
+                var li = ul.children();
+                var _btnUp = $(".up:eq(0)",$this);
+                var _btnDown = $(".down:eq(0)");
+                var liHight = $(li[0]).height();
+                var upHeight = 0 - settings.line * liHight;
+                var scrollUp = function(){
+                    _btnUp.unbind("click",scrollUp);
+                    ul.animate({
+                            marginTop: upHeight
+                        },
+                        settings.speed,
+                        function(){
+                            for(var i = 0;i < settings.line;i++){
+                                ul.find("li:first").appendTo(ul);
+                            }
+                            ul.css({
+                                marginTop: 0
+                            })
+                            _btnUp.bind("click",scrollUp);
+                        }
+                    )
+                }
+                var scrollDown = function(){
+                    _btnDown.unbind("click",scrollDown);
+                    ul.css({
+                        marginTop: upHeight
+                    })
+                    for(var i = 0; i < settings.line;i++){
+                        ul.find("li:last").prependTo(ul)
+                    }
+                    ul.animate({
+                        marginTop:0
+                    },
+                        settings.speed,
+                        function(){
+                            _btnDown.bind("click",scrollDown)
+                        }
+                    )
+                }
+                var autoPlay = function(){
+                    timerID =  window.setInterval(scrollUp,settings.timer)
+                }
+                var autoStop = function(){
+                    window.clearInterval(timerID)
+                }
+                ul.hover(autoStop,autoPlay).mouseout();
+                _btnUp.css("cursor","pointer").click(scrollUp);
+                _btnUp.hover(autoStop,autoPlay);
+                _btnDown.css("cursor","pointer").click(scrollDown);
+                _btnDown.hover(autoStop,autoPlay);
+            }
+        })(jQuery)
+        $(function(){
+            $(".scrolldiv").textSlider({line:1,speed:300,timer: 6000});
+        })
+    </script>
+</head>
+<body>
+    <header class="site-header">
+        <nav class="top-header">
+            <div class="top-nav">
+                <div class="user-login">
+                    <a href="${request.contextPath}/user/login">登录</a>
+                </div>
+                <div class="menu-topmenu-container">
+                    <ul class="top-menu">
+                        <li class="menu-item">
+                            <a>
+                                <i></i>
+                                <span class="">关于本站</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+        <div class="menu-box">
+            <div class="secondtop-menu">
+                <span class="nav-search">P</span>
+                <div class="logo-site">
+                    <h1 class="site-title"><a href="${request.contextPath}/user/index">Zachary's博客</a></h1>
+                    <p class="site-description">聆听，分享</p>
+                </div>
+                <div class="site-nav-wrap">
+                    <nav class="site-nav">
+                        <div class="menu-pcmenu-container">
+                            <ul class="down-menu nav-menu">
+                                <li></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </header>
+    <!-- 搜索框 -->
+    <div class="search-main">
+        <div class="searchbar">
+            <form method="get" class="searchForm" action="${request.contextPath}/user/index">
+                <span>
+                    <input type="text" value="" name="query" placeholder="输入搜索内容" required>
+                    <button type="submit" class="searchsubmit">搜索</button>
+                </span>
+            </form>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <!-- 新闻小喇叭 -->
+    <nav class="breadcrumb">
+        <div class="bull">
+            <i>P彡</i>
+        </div>
+        <div class="scrolldiv">
+            <div class="scrolltext">
+                <ul style="margin-top: 0;">
+                    <li class="scrolltext-title">
+                        <a href="/" rel="bookmark">欢迎来到Zachary的博客</a>
+                    </li>
+                    <li class="scrolltext-title">
+                        <a href="/" rel="bookmark">本站测试~</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- 内容区域 -->
+    <div class="site-content" style="transform: none;">
+        <div class="content-area">
+            <main class="site-main" role="main">
+                <article class="post type-post">
+                    <figure class="thumbnail">
+                        <a href="${request.contextPath}/user/index">
+                            <img width="280" height="210" src="http://blogcdn.liuyanzhao.com/img/thumbnail/random/img_25.jpg" >
+                        </a>
+                        <span class="cat">
+                            <a href="${request.contextPath}/user/index">数据结构与算法</a>
+                        </span>
+                    </figure>
+                    <header class="entry-header">
+                        <h2 class="entry-title">
+                            <a href="${request.contextPath}/user/index" rel="bookmark">
+                                Zachary
+                            </a>
+                        </h2>
+                    </header>
+                    <div class="entry-content">
+                        <div class="archive-content">zzz...</div>
+                        <span class="title-l"></span>
+                        <span class="new-icon"></span>
+                        <span class="entry-meta">
+                            <span class="date">2018年11月07日</span>
+                            <span class="views">2views</span>
+                            <span class="comment">..</span>
+                        </span>
+                        <div class="clear"></div>
+                    </div>
+                    <span class="entry-more">
+                        <a href="${request.contextPath}/user/index">阅读全文</a>
+                    </span>
+                </article>
+            </main>
+            <!-- 页码导航栏 -->
+            <nav class="navigation pagination" role="navigation">
+                <div class="nav-links">
+                    <a class="page-numbers current">1</a>
+                    <a class="page-numbers">2</a>
+                    <a class="page-numbers">3</a>
+                    <a class="page-numbers">&gt;</a>
+                </div>
+            </nav>
+        </div>
+
+        <!-- 侧边菜单栏 -->
+        <div class="widget-area all-sidebar">
+            <!-- 关于本站 -->
+            <aside class="widget about">
+                <h3 class="widget-title">关于本站</h3>
+                <div class="feed-weight">
+                    <div class="feed-about">
+                        <div class="about-main">
+                            <div class="about-img">
+                                <img src="" alt="qrcode">
+                            </div>
+                            <div class="about-name">博客初心</div>
+                            <div class="about-the">自我学习的新起点，珍惜时间，保持努力的惯性</div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="about-inf">
+                        <span class="about-pn">文章 1</span>
+                        <span class="about-cn">留言 0</span>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </aside>
+            <!-- 网站概况 -->
+            <aside class="widget php-text">
+                <h3 class="widget-title">网站概况</h3>
+                <div class="textwidget widget-text">
+                    <ul class="site-profile">
+                        <li>文章总数：1篇</li>
+                        <li>留言数量：0条</li>
+                        <li>分类数量：0个</li>
+                        <li>标签总数：0个</li>
+                        <li>链接数量：0个</li>
+                        <li>浏览总量：0次</li>
+                        <li>最后更新：2018年11月8日</li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </aside>
+            <!-- 热评文章 -->
+            <aside class="widget hot-comment">
+                <h3 class="widget-title">热评文章</h3>
+                <div class="hot-comment-widget">
+                    <ul>
+                        <li>数据表的垂直拆分和水平拆分</li>
+                        <li>三次握手和四次挥手</li>
+                        <li>zzz...</li>
+                        <li>Mybatis高级映射多对多查询</li>
+                        <li>【Java集合源码剖析】Hashtable源码剖析</li>
+                        <li>execute、executeUpdate、executeQuery三者的区别</li>
+                        <li>sql语句分为三类（DML、DDL、DCL）</li>
+                        <li>Servlet实现验证码</li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </aside>
+            <!-- 热门标签 -->
+            <aside class="widget">
+                <h3 class="widget-title">所有标签</h3>
+                <div class="tagcloud">
+                    <a href="${request.contextPath}/user/index" class="tag-link-129 tag-link-position-1" style="font-size:14px;">Java</a>
+                </div>
+                <div class="clear"></div>
+            </aside>
+            <!-- 随机文章 -->
+            <aside class="widget">
+                <h3 class="widget-title">随机文章</h3>
+                <div class="random-post-widget">
+                    <ul>
+                        <li>sql语句分为三类（DML、DDL、DCL）-介绍</li>
+                        <li>MySQL存储引擎 -- MyISAM与InnoDB区别</li>
+                        <li>zz..</li>
+                        <li>使用rapid-framework继承jsp页面</li>
+                        <li>Hibernate基本类型</li>
+                        <li>五种IO模型</li>
+                        <li>JDBC常用API和使用</li>
+                        <li>JSP中forward转发和sendRedirect重定向的区别</li>
+                    </ul>
+                </div>
+                <div class="clear"></div>
+            </aside>
+            <!-- 近期评论 -->
+            <aside class="widget">
+                <h3 class="widget-title">近期评论</h3>
+                <div class="message-widget">
+                    <ul>
+                        <li>
+                            <a href="${request.contextPath}/user/index">
+                                <img src="http://cn.gravatar.com/avatar/59cf3ac492db80946c7e58ca635d1a67?s=128&d=identicon&r=PG" class="avatar" height="64" width="64">
+                                <span class="comment-author">
+                                    <strong>zzz</strong>
+                                </span>
+                                "zzz"
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </div>
+</body>
+</html>
