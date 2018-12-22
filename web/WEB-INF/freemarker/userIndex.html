@@ -130,20 +130,44 @@
             })
             //绑定事件--发布
             $(document).on("click","#article-submit",function(){
+                console.log(layui.layedit.getContent(layeditIndex));
+                return;
                 if(trim($("#title").val()).length < 2){
                     layer.alert("标题有点短呐！",{icon:5});
                     return false;
                 } else if(trim($("#title").val()).length > 200){
                     layer.alert("标题有点长了！",{icon: 5});
+                    return false;
                 } else if(!trim(layui.layedit.getText(layeditIndex))){
                     layer.alert("写点内容吧！",{icon: 5});
+                    return false;
                 } else if(trim(layui.layedit.getText(layeditIndex)) < 10){
                     layer.alert("再多写点内容吧！",{icon: 5});
-                } else if(layui.layedit.getText(layeditIndex) > 500000){
+                    return false;
+                } else if(trim(layui.layedit.getText(layeditIndex)) > 500000){
                     layer.alert("似乎写的有点多哦！",{icon: 5})
+                    return false;
                 } else if(!$("#category").val()){
-                    layer.alert("要选择分类哦！",{icon: 5})
+                    layer.alert("请选择分类！",{icon: 5})
+                    return false;
                 }
+                $.ajax({
+                    url: "${request.contextPath}/article/editArticle",
+                    type: "POST",
+                    dataType:"json",
+                    data: {
+                        "title": $("#title").val(),
+                        "content": layui.layedit.getContent(layeditIndex),
+                        "category": $("#category").val(),
+                        "status": $("#status").val(),
+                        "isAllowComment": $("#isAllowComment").val()
+                    },
+                    success: function(data){
+                        console.log(data);
+                        layer.alert("发布成功",{icon: 1});
+                    }
+                });
+
             });
         })
     </script>
@@ -222,7 +246,7 @@
     <div class="site-content" style="transform: none;">
         <div class="col-md-9">
             <div class="form-group">
-                <input type="text" class="form-control input-lg input-flat" name="title" id="title" placeholder="标题：雪夜"/>
+                <input type="text" class="form-control input-lg input-flat" name="title" id="title" placeholder="标题：Java"/>
             </div>
             <div class="form-group">
                <div class="article-wrapper">
@@ -246,7 +270,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4">状态</label>
                                 <div class="col-md-6">
-                                    <select class="form-control input-flat">
+                                    <select id="status" class="form-control input-flat">
                                         <option value="publish">已发布</option>
                                         <option value="draft">草稿</option>
                                         <option value="private">私密</option>
@@ -256,9 +280,9 @@
                             <div class="form-group">
                                 <label class="control-label col-md-4">评论</label>
                                 <div class="col-md-6">
-                                    <select class="form-control input-flat">
-                                        <option value="0">允许</option>
-                                        <option value="1">禁止</option>
+                                    <select id="isAllowComment" class="form-control input-flat">
+                                        <option value="1">允许</option>
+                                        <option value="0">禁止</option>
                                     </select>
                                 </div>
                             </div>

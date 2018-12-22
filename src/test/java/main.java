@@ -9,4 +9,10 @@ public class main {
         SimpleHash hash = new SimpleHash("MD5","123456", ByteSource.Util.bytes("Zachary"),1024);
         System.out.println(hash);
     }
+
+    @Test
+    public void testCalculate(){
+        double result = Math.pow(10,Math.pow(10,Math.pow(10,Math.pow(10,2.08))));
+        System.out.println(result);
+    }
 }

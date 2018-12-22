@@ -16,6 +16,44 @@
         WHERE login_user = #{login_user}
         ORDER BY created_at ASC
     </select>
+
+    <!-- 添加文章信息 -->
+    <insert id="addArticle" parameterType="top.zacharye.entity.Article" >
+        INSERT INTO article(title,content,category_id,created_at,status,isAllowComment,login_user)
+        VALUES(#{title},#{content},#{category},current_timestamp,#{status},#{isAllowComment},#{login_user})
+    </insert>
+
+    <!-- 修改文章信息 -->
+    <insert id="editArticle" parameterType="top.zacharye.entity.Article" >
+        UPDATE article
+        SET title = #{title},
+            content = #{content},
+            category_id = #{category},
+            status = #{status},
+            isAllowComment = #{isAllowComment},
+            updated_at = current_timestamp
+        WHERE id = #{id}
+    </insert>
+
+    <!-- 查找文章：按指定登录名 -->
+    <select id="findArticlesByLoginUser" parameterType="string" resultType="top.zacharye.entity.Article">
+        SELECT title,content,category_id AS "category",status,isAllowComment
+        FROM article
+        WHERE login_user = #{login_user}
+    </select>
+
+    <!-- 查找文章：按指定ID -->
+    <select id="findArticleById" parameterType="string" resultType="top.zacharye.entity.Article">
+        SELECT a.title,a.content,c.name AS "category_name",a.created_at
+        FROM article a JOIN category c ON c.id = a.category_id
+        WHERE a.id = #{id}
+    </select>
+
+    <!-- 查找全部文章信息 -->
+    <select id="findAllSimplifiedArticles" resultType="top.zacharye.entity.Article">
+        SELECT a.id,a.title,a.content,c.name AS "category_name",a.created_at
+        FROM article a JOIN category c ON c.id = a.category_id
+    </select>
 </mapper>
 
 

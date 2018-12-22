@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" content="text/html">
-    <title>Index of Zachary's Blog</title>
+    <title>阅读文章</title>
     <link rel="stylesheet" href="${request.contextPath}/resources/css/style.css">
     <script type="text/javascript" src="${request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="${request.contextPath}/resources/js/vue.js"></script>
@@ -171,71 +171,31 @@
     </nav>
     <!-- 内容区域 -->
     <div class="site-content" style="transform: none;" id="site-content">
-        <div class="content-area">
+        <div id="primary" class="content-area">
             <main class="site-main" role="main">
-                <article class="post type-post" v-for="article in articles">
-                    <figure class="thumbnail">
-                        <a href="${request.contextPath}/user/index">
-                            <img width="280" height="210" src="http://blogcdn.liuyanzhao.com/img/thumbnail/random/img_25.jpg" >
-                        </a>
-                        <span class="cat">
-                            <a href="${request.contextPath}/user/index">{{article.category_name}}</a>
-                        </span>
-                    </figure>
+                <article class="post">
                     <header class="entry-header">
-                        <h2 class="entry-title">
-                            <a href="${request.contextPath}/user/index" rel="bookmark">
-                                {{article.title}}
-                            </a>
-                        </h2>
+                        <h1 class="entry-title">Java</h1>
                     </header>
                     <div class="entry-content">
-                        <div class="archive-content">{{article.content}}</div>
-                        <span class="title-l"></span>
-                        <span class="new-icon"></span>
-                        <span class="entry-meta">
-                            <span class="date">2018年11月07日</span>
-                            <span class="views">2views</span>
-                            <span class="comment">..</span>
-                        </span>
+                        <div class="single-content">Java嗨呀</div>
                         <div class="clear"></div>
                     </div>
-                    <span class="entry-more">
-                        <a :href="'${request.contextPath}/article/showDetail/'{{article.id}}">阅读全文</a>
-                    </span>
                 </article>
             </main>
-            <!-- 页码导航栏 -->
-            <nav class="navigation pagination" role="navigation">
-                <div class="nav-links">
-                    <a class="page-numbers current">1</a>
-                    <a class="page-numbers">2</a>
-                    <a class="page-numbers">3</a>
-                    <a class="page-numbers">&gt;</a>
-                </div>
-            </nav>
         </div>
 
         <!-- 侧边菜单栏 -->
         <div class="widget-area all-sidebar">
-            <!-- 关于本站 -->
-            <aside class="widget about">
-                <h3 class="widget-title">关于本站</h3>
-                <div class="feed-weight">
-                    <div class="feed-about">
-                        <div class="about-main">
-                            <div class="about-img">
-                                <img src="" alt="qrcode">
-                            </div>
-                            <div class="about-name">博客初心</div>
-                            <div class="about-the">自我学习的新起点，珍惜时间，保持努力的惯性</div>
-                        </div>
-                        <div class="clear"></div>
-                    </div>
-                    <div class="about-inf">
-                        <span class="about-pn">文章 1</span>
-                        <span class="about-cn">留言 0</span>
-                    </div>
+            <!-- 搜索栏 -->
+            <aside class="widget widget-search">
+                <div class="searchbar">
+                    <form method="get" id="searcharform1">
+                        <span>
+                            <input type="text" value name="keywords" placeholder="输入搜索内容" required>
+                            <button type="submit">搜索</button>
+                        </span>
+                    </form>
                 </div>
                 <div class="clear"></div>
             </aside>
@@ -251,23 +211,6 @@
                         <li>链接数量：0个</li>
                         <li>浏览总量：0次</li>
                         <li>最后更新：2018年11月8日</li>
-                    </ul>
-                </div>
-                <div class="clear"></div>
-            </aside>
-            <!-- 热评文章 -->
-            <aside class="widget hot-comment">
-                <h3 class="widget-title">热评文章</h3>
-                <div class="hot-comment-widget">
-                    <ul>
-                        <li>数据表的垂直拆分和水平拆分</li>
-                        <li>三次握手和四次挥手</li>
-                        <li>zzz...</li>
-                        <li>Mybatis高级映射多对多查询</li>
-                        <li>【Java集合源码剖析】Hashtable源码剖析</li>
-                        <li>execute、executeUpdate、executeQuery三者的区别</li>
-                        <li>sql语句分为三类（DML、DDL、DCL）</li>
-                        <li>Servlet实现验证码</li>
                     </ul>
                 </div>
                 <div class="clear"></div>
@@ -296,23 +239,6 @@
                     </ul>
                 </div>
                 <div class="clear"></div>
-            </aside>
-            <!-- 近期评论 -->
-            <aside class="widget">
-                <h3 class="widget-title">近期评论</h3>
-                <div class="message-widget">
-                    <ul>
-                        <li>
-                            <a href="${request.contextPath}/user/index">
-                                <img src="http://cn.gravatar.com/avatar/59cf3ac492db80946c7e58ca635d1a67?s=128&d=identicon&r=PG" class="avatar" height="64" width="64">
-                                <span class="comment-author">
-                                    <strong>zzz</strong>
-                                </span>
-                                "zzz"
-                            </a>
-                        </li>
-                    </ul>
-                </div>
             </aside>
         </div>
     </div>
