@@ -130,8 +130,6 @@
             })
             //绑定事件--发布
             $(document).on("click","#article-submit",function(){
-                console.log(layui.layedit.getContent(layeditIndex));
-                return;
                 if(trim($("#title").val()).length < 2){
                     layer.alert("标题有点短呐！",{icon:5});
                     return false;

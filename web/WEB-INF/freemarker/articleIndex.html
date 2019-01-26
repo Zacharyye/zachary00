@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" content="text/html">
-    <title>阅读文章</title>
+    <title>ZAY-${article.title}</title>
     <link rel="stylesheet" href="${request.contextPath}/resources/css/style.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script type="text/javascript" src="${request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="${request.contextPath}/resources/js/vue.js"></script>
     <script type="text/javascript" src="${request.contextPath}/resources/js/sweetalert2.all.min.js"></script>
@@ -81,26 +82,48 @@
             var vue = new Vue({
                 el: "#site-content",
                 data: {
-                    articles: []
-                }
-            });
-
-            $.ajax({
-                url: "${request.contextPath}/article/findAllSimplifiedArticles",
-                type:"get",
-                dataType:"json",
-                success: function(result){
-                    console.log(result);
-                    vue.articles = result.data;
+                    articles: [],
+                    totalPage: 1,
+                    currentPage: 1,
+                    pageSize: 10,
+                    totalArticleNum: 0,
+                    totalCommentNum: 0,
+                    totalCategoryNum: 0,
+                    totalTagNum: 0,
+                    totalReadNum: 0,
+                    totalLinkNum: 0,
+                    lastModifiedTime: "2019年1月25日"
                 },
-                error: function(){
-                    layer.alert("网络出错啦！",{icon: 2});
+                created: function(){
+                    var v = this;
+                    v.init();
+                },
+                methods: {
+                    init: function(){
+                        var v = this;
+                        $.ajax({
+                            url: "${request.contextPath}/article/findAllSimplifiedArticles",
+                            type:"get",
+                            dataType:"json",
+                            success: function(result){
+                                console.log(result);
+                                v.articles = result.data;
+                            },
+                            error: function(){
+                                layer.alert("网络出错啦！",{icon: 2});
+                            }
+                        });
+                    },
+                    showSearchBox : function(){
+                        $(".search-main").toggle();
+                    }
                 }
             });
         })
     </script>
 </head>
 <body>
+    <div  id="site-content">
     <header class="site-header">
         <nav class="top-header">
             <div class="top-nav">
@@ -121,9 +144,9 @@
         </nav>
         <div class="menu-box">
             <div class="secondtop-menu">
-                <span class="nav-search">P</span>
+                <span class="nav-search" @click="showSearchBox();"><i class="fa fa-search"></i></span>
                 <div class="logo-site">
-                    <h1 class="site-title"><a href="${request.contextPath}/user/index">Zachary's博客</a></h1>
+                    <h1 class="site-title"><a href="${request.contextPath}/user/index">ZAY博客</a></h1>
                     <p class="site-description">聆听，分享</p>
                 </div>
                 <div class="site-nav-wrap">
@@ -154,7 +177,7 @@
     <!-- 新闻小喇叭 -->
     <nav class="breadcrumb">
         <div class="bull">
-            <i>P彡</i>
+            <i class="fa fa-snowflake-o fa-spin"></i>
         </div>
         <div class="scrolldiv">
             <div class="scrolltext">
@@ -175,10 +198,10 @@
             <main class="site-main" role="main">
                 <article class="post">
                     <header class="entry-header">
-                        <h1 class="entry-title">Java</h1>
+                        <h1 class="entry-title">${article.title}</h1>
                     </header>
                     <div class="entry-content">
-                        <div class="single-content">Java嗨呀</div>
+                        <div class="single-content">${article.content}</div>
                         <div class="clear"></div>
                     </div>
                 </article>
@@ -201,23 +224,23 @@
             </aside>
             <!-- 网站概况 -->
             <aside class="widget php-text">
-                <h3 class="widget-title">网站概况</h3>
+                <h3 class="widget-title"><i class="fa fa-bars"></i>网站概况</h3>
                 <div class="textwidget widget-text">
                     <ul class="site-profile">
-                        <li>文章总数：1篇</li>
-                        <li>留言数量：0条</li>
-                        <li>分类数量：0个</li>
-                        <li>标签总数：0个</li>
-                        <li>链接数量：0个</li>
-                        <li>浏览总量：0次</li>
-                        <li>最后更新：2018年11月8日</li>
+                        <li><i class="fa fa-file-o fa-fw"></i>文章总数：{{totalArticleNum}}篇</li>
+                        <li><i class="fa fa-commenting-o fa-fw"></i>留言数量：{{totalCommentNum}}条</li>
+                        <li><i class="fa fa-folder-o fa-fw"></i>分类数量：{{totalCategoryNum}}个</li>
+                        <li><i class="fa fa-tags fa-fw"></i>标签总数：{{totalTagNum}}个</li>
+                        <li><i class="fa fa-link fa-fw"></i>链接数量：{{totalLinkNum}}个</li>
+                        <li><i class="fa fa-clock-o fa-fw"></i>浏览总量：{{totalReadNum}}次</li>
+                        <li><i class="fa fa-eye fa-fw"></i>最后更新：{{lastModifiedTime}}</li>
                     </ul>
                 </div>
                 <div class="clear"></div>
             </aside>
             <!-- 热门标签 -->
             <aside class="widget">
-                <h3 class="widget-title">所有标签</h3>
+                <h3 class="widget-title"><i class="fa fa-bars"></i>所有标签</h3>
                 <div class="tagcloud">
                     <a href="${request.contextPath}/user/index" class="tag-link-129 tag-link-position-1" style="font-size:14px;">Java</a>
                 </div>
@@ -225,7 +248,7 @@
             </aside>
             <!-- 随机文章 -->
             <aside class="widget">
-                <h3 class="widget-title">随机文章</h3>
+                <h3 class="widget-title"><i class="fa fa-bars"></i>随机文章</h3>
                 <div class="random-post-widget">
                     <ul>
                         <li>sql语句分为三类（DML、DDL、DCL）-介绍</li>
@@ -241,6 +264,7 @@
                 <div class="clear"></div>
             </aside>
         </div>
+    </div>
     </div>
 </body>
 </html>

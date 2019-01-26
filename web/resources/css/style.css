@@ -30,6 +30,9 @@ a{
 a img{
     border: 0;
 }
+a,button,input {
+    -webkit-tap-highlight-color: rgba(255,0,0,0);
+}
 label{
     display: inline-block;
     max-width: 100%;
@@ -156,6 +159,7 @@ a,button,input{
     overflow: hidden;
     transition-duration: 0.5s;
 }
+
 .site-title{
     font-size: 2.4rem;
     font-weight: 700;
@@ -164,7 +168,7 @@ nav{
     display: block;
 }
 .nav-search{
-    background: #009688;
+    background: #398898;
     float: right;
     color: #fff;
     line-height: 26px;
@@ -172,7 +176,7 @@ nav{
     padding: 0 8px 3px;
     cursor: pointer;
     border-radius: 3px;
-    border: 1px solid #009688;
+    border: 1px solid #398898;
     box-shadow: 0 1px 1px rgba(0,0,0,0.04)
 }
 .clear{
@@ -185,6 +189,12 @@ nav{
     height: 88px;
     line-height: 88px;
 }
+.site-nav .down-menu a {
+    padding: 0 13px;
+    color: #444;
+    text-align: left;
+    transition-duration: 0.5s;
+}
 .nav-menu li{
     position: relative;
     white-space: nowrap;
@@ -196,6 +206,10 @@ nav{
     text-align: left;
     transition-duration: 0.5s;
 }
+.font-text {
+    margin: 0 0 0 5px;
+}
+
 .nav-menu a{
     display: block;
     position: relative;
@@ -210,7 +224,6 @@ nav{
     margin: 0;
 }
 .nav-menu,.nav-menu *{
-    float: left;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -361,6 +374,9 @@ nav{
     height: 40px;
     line-height: 40px;
     border-bottom: 1px solid #ddd;
+}
+.widget-text i {
+    margin: 0 5px 0 0;
 }
 .widget-title i{
     float: left;
@@ -677,9 +693,48 @@ nav{
     height: 37px;
     width: 25%;
     color: #fff;
-    background: #009688;
+    background: #398898;
     border-radius: 0 2px 2px 0;
 }
+
+.feed-widget ul{
+    margin: 0 10px;
+    overflow: hidden;
+}
+
+.user-login i{
+    margin: 0 5px 0 0;
+}
+
+.site-footer {
+    background: #F5F8F9;
+    position: relative;
+    width: auto;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -1px 1px rgba(0,0,0,0.03);
+}
+
+.fadeInUp {
+    animation-name: fadeIn;
+}
+.site-info {
+    text-align: center;
+    margin: 0 5%;
+    padding: 15px 0;
+}
+.li-icon {
+    background: #e8e8e8;
+    font-size: 12px;
+    color: #fff;
+    line-height: 180%;
+    margin: 0 5px 0 0;
+    padding: 0 5px;
+    border-radius: 2px;
+}
+.li-icon-1,.li-icon-2,.li-icon-3 {
+    background: #c40000;
+}
+
 @media screen and (max-width: 440px){
     .post{
         padding: 15px;
@@ -795,6 +850,7 @@ nav{
         margin: 5px 0 0 10px;
         height: 30px;
     }
+
     .logo-site a{
         font-size: 0.7em;
     }
@@ -851,6 +907,24 @@ nav{
     }
 }
 
+@media screen and (min-width: 900px){
+    .logo-site:before{
+        content:"";
+        position: absolute;
+        width: 220px;
+        height: 15px;
+        background-color: rgba(255,255,255,0.5);
+        -webkit-transform: rotate(-45deg);
+        -moz-transform: rotate(-45deg);
+        -ms-transform: rotate(-45deg);
+        -o-transform: rotate(-45deg);
+        transform: rotate(-45deg);
+        -webkit-animation: searchLights 1s ease-in 1s infinite;
+        -o-animation: searchLights 1s ease-in 1s infinite;
+        animation: searchLights 1s ease-in 1s infinite;
+    }
+}
+
 @media screen and (max-width: 1080px){
     .top-nav{
         width: 98%;
@@ -870,4 +944,40 @@ nav{
     .search-main{
         width: 98%;
     }
+}
+
+@-webkit-keyframes searchLights  {
+    0% {
+        left: -100px;
+        top: 0;
+    }
+
+    to {
+        left: 120px;
+        top: 100px;
+    }
+}
+
+@-o-keyframes searchLights {
+    0% {
+        left: -100px;
+        top: 0;
+    }
+
+    to {
+        left: 120px;
+        top:0;
+    }
+}
+@-moz-keyframes searchLights {
+    0% {
+        left: -100px;
+        top: 0;
+    }
+
+    to {
+        left: 120px;
+        top: 100px;
+    }
+
 }
