@@ -131,7 +131,7 @@ a:visited{
     color: #555;
 }
 a,button,input{
-    -webkit-tap-highlight-color: rgba(255,0,0,0);
+    -webkit-tap-highlight-color: rgba(255,255,255,0);
 }
 .menu-box{
     background: #fff;
@@ -480,6 +480,11 @@ nav{
     color: #fff;
     border: 1px solid #398898;
 }
+.pagination .disabled{
+    background-color: #ebebeb;
+    color: #ccc;
+    border: solid 1px #ebebeb;
+}
 .pagination a,.pagination a:visited{
     float: left;
     background: #fff;
@@ -733,6 +738,23 @@ nav{
 }
 .li-icon-1,.li-icon-2,.li-icon-3 {
     background: #c40000;
+}
+.single-meta {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+.single-meta li{
+    float: left;
+}
+.single-meta .views,.single-meta li a {
+    color: #999;
+    line-height: 26px;
+    margin: 0 5px 0 0;
+    padding: 0 8px;
+    display: block;
+    border: 1px solid #ddd;
+    border-radius: 2px;
 }
 
 @media screen and (max-width: 440px){

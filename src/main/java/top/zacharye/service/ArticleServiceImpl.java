@@ -7,7 +7,9 @@ import top.zacharye.entity.Article;
 import top.zacharye.entity.Category;
 import top.zacharye.util.Result;
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service("articleService")
 @Transactional
@@ -70,12 +72,28 @@ public class ArticleServiceImpl implements ArticleService {
         return new Result().success(articles);
     }
 
+    public Result findAllSimplifiedArticles(Map<String, Object> mapData) {
+        List<Article> articles = articleDao.findAllSimplifiedArticlesByCondition(mapData);
+        Map<String,Object> result_cal = articleDao.calculateTheAmountOfRecords(mapData);
+        Map<String,Object> result = new HashMap<String, Object>();
+        List<Article> hot_articles = articleDao.findHotArticles();
+        result.put("articles",articles);
+        result.put("r_cal",result_cal);
+        result.put("hot_articles",hot_articles);
+        return new Result().success(result);
+    }
+
     /**
      * 查找文章：根据指定id
      * @param id
      * @return
      */
     public Article findArticleById (String id) {
+        articleDao.updateArticleInfo(id);
         return articleDao.findArticleById(id);
+    }
+
+    public List<Article> findHotArticles() {
+        return articleDao.findHotArticles();
     }
 }

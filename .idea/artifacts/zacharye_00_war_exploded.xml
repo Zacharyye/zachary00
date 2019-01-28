@@ -27,7 +27,6 @@
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-web:1.4.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.4.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-lang:1.4.0" />
-          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.21" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-cache:1.4.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-crypto-hash:1.4.0" />
           <element id="library" level="project" name="Maven: org.apache.shiro:shiro-crypto-core:1.4.0" />
@@ -42,6 +41,12 @@
           <element id="library" level="project" name="Maven: com.joyent.util:fast-md5:2.7.1" />
           <element id="library" level="project" name="Maven: junit:junit:4.10" />
           <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.2" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-nop:1.7.2" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.2" />
+          <element id="library" level="application_server_libraries" name="Tomcat 7.0.81" />
         </element>
       </element>
       <element id="javaee-facet-resources" facet="zacharye-00/web/Web" />

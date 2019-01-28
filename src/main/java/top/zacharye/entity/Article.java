@@ -11,7 +11,17 @@ public class Article {
     private String status;
     private Integer isAllowComment;
     private String login_user;
+    private Integer support;
     private Timestamp created_at;
+    private String created_time;
+
+    public String getCreated_time() {
+        return created_time;
+    }
+
+    public void setCreated_time(String created_time) {
+        this.created_time = created_time;
+    }
 
     public Article(){}
 
@@ -95,5 +105,13 @@ public class Article {
 
     public void setCreated_at(Timestamp created_at) {
         this.created_at = created_at;
+    }
+
+    public Integer getSupport() {
+        return support;
+    }
+
+    public void setSupport(Integer support) {
+        this.support = support;
     }
 }

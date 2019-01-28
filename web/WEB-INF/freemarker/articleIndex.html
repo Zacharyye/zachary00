@@ -96,24 +96,8 @@
                 },
                 created: function(){
                     var v = this;
-                    v.init();
                 },
                 methods: {
-                    init: function(){
-                        var v = this;
-                        $.ajax({
-                            url: "${request.contextPath}/article/findAllSimplifiedArticles",
-                            type:"get",
-                            dataType:"json",
-                            success: function(result){
-                                console.log(result);
-                                v.articles = result.data;
-                            },
-                            error: function(){
-                                layer.alert("网络出错啦！",{icon: 2});
-                            }
-                        });
-                    },
                     showSearchBox : function(){
                         $(".search-main").toggle();
                     }
@@ -193,7 +177,7 @@
         </div>
     </nav>
     <!-- 内容区域 -->
-    <div class="site-content" style="transform: none;" id="site-content">
+    <div class="site-content" style="transform: none;">
         <div id="primary" class="content-area">
             <main class="site-main" role="main">
                 <article class="post">
@@ -203,6 +187,18 @@
                     <div class="entry-content">
                         <div class="single-content">${article.content}</div>
                         <div class="clear"></div>
+                        <footer class="single-footer">
+                            <ul class="single-meta">
+                                <li class="comment">
+                                    <a>
+                                        <i class="fa fa-comment-o">&nbsp;0&nbsp;</i>
+                                    </a>
+                                </li>
+                                <li class="views">
+                                    <i class="fa fa-eye">&nbsp;${article.support}&nbsp;views</i>
+                                </li>
+                            </ul>
+                        </footer>
                     </div>
                 </article>
             </main>
@@ -222,27 +218,27 @@
                 </div>
                 <div class="clear"></div>
             </aside>
-            <!-- 网站概况 -->
-            <aside class="widget php-text">
-                <h3 class="widget-title"><i class="fa fa-bars"></i>网站概况</h3>
-                <div class="textwidget widget-text">
-                    <ul class="site-profile">
-                        <li><i class="fa fa-file-o fa-fw"></i>文章总数：{{totalArticleNum}}篇</li>
-                        <li><i class="fa fa-commenting-o fa-fw"></i>留言数量：{{totalCommentNum}}条</li>
-                        <li><i class="fa fa-folder-o fa-fw"></i>分类数量：{{totalCategoryNum}}个</li>
-                        <li><i class="fa fa-tags fa-fw"></i>标签总数：{{totalTagNum}}个</li>
-                        <li><i class="fa fa-link fa-fw"></i>链接数量：{{totalLinkNum}}个</li>
-                        <li><i class="fa fa-clock-o fa-fw"></i>浏览总量：{{totalReadNum}}次</li>
-                        <li><i class="fa fa-eye fa-fw"></i>最后更新：{{lastModifiedTime}}</li>
-                    </ul>
-                </div>
-                <div class="clear"></div>
-            </aside>
             <!-- 热门标签 -->
             <aside class="widget">
                 <h3 class="widget-title"><i class="fa fa-bars"></i>所有标签</h3>
                 <div class="tagcloud">
                     <a href="${request.contextPath}/user/index" class="tag-link-129 tag-link-position-1" style="font-size:14px;">Java</a>
+                </div>
+                <div class="clear"></div>
+            </aside>
+            <!-- 热门文章 -->
+            <aside class="widget hot-comment">
+                <h3 class="widget-title"><i class="fa fa-bars"></i>热门文章</h3>
+                <div class="hot-comment-widget">
+                    <ul>
+                        <#list hotArticles as article>
+                            <li>
+                                <span class="li-icon li-icon-${article_index+1}">${article_index+1}</span>
+                                <a href="${request.contextPath}/article/showDetail/${article.id}" rel="bookmark" target="_blank">${article.title}</a>
+                            </li>
+                        </#list>
+
+                    </ul>
                 </div>
                 <div class="clear"></div>
             </aside>

@@ -84,4 +84,16 @@ public class UserController {
     public String showUserIndex(HttpServletRequest request,HttpServletResponse response){
         return "userIndex";
     }
+
+    @RequestMapping(value = "/logout",method = {RequestMethod.POST,RequestMethod.GET})
+    public String logout(HttpServletRequest request,HttpServletResponse response){
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
+        HttpSession session = request.getSession(false);
+        request.removeAttribute("username");
+        session.removeAttribute("username");
+        return "userIndex";
+    }
+
+
 }

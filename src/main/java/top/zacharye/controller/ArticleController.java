@@ -16,9 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialBlob;
 import java.io.UnsupportedEncodingException;
+import java.net.InetAddress;
 import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -72,7 +74,15 @@ public class ArticleController {
     @RequestMapping(value="/findAllSimplifiedArticles", method = {RequestMethod.POST , RequestMethod.GET})
     @ResponseBody
     public Result findAllSimplifiedArticles(HttpServletRequest request,HttpServletResponse response) {
-        return articleService.findAllSimplifiedArticles();
+        Map<String,Object> map = new HashMap<String, Object>();
+        String currentPage = request.getParameter("currentPage");
+        String pageSize = request.getParameter("pageSize");
+        int start = currentPage == null ? 1 : ((Integer.valueOf(currentPage) - 1) * Integer.valueOf(pageSize));
+        int end = currentPage == null ? 1 : (Integer.valueOf(currentPage) * Integer.valueOf(pageSize));
+        map.put("start",start);
+        map.put("end",end);
+        map.put("pageSize",Integer.valueOf(pageSize));
+        return articleService.findAllSimplifiedArticles(map);
     }
 
     /**
@@ -85,7 +95,9 @@ public class ArticleController {
     public String showArticleDetail(HttpServletRequest request,HttpServletResponse response,@PathVariable String articleId) {
         //TODO 查找文章详情
         Article article = articleService.findArticleById(articleId);
+        List<Article> articles = articleService.findHotArticles();
         request.setAttribute("article",article);
+        request.setAttribute("hotArticles",articles);
         return "articleIndex";
     }
 }
