@@ -4,11 +4,13 @@
     <meta charset="UTF-8" content="text/html">
     <title>ZAY-${article.title}</title>
     <link rel="stylesheet" href="${request.contextPath}/resources/css/style.css">
+    <link rel="stylesheet" href="${request.contextPath}/resources/plugins/owo/OwO.min.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script type="text/javascript" src="${request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="${request.contextPath}/resources/js/vue.js"></script>
     <script type="text/javascript" src="${request.contextPath}/resources/js/sweetalert2.all.min.js"></script>
     <script type="text/javascript" src="${request.contextPath}/resources/plugins/layui/lay/modules/layer.js"></script>
+    <script type="text/javascript" src="${request.contextPath}/resources/plugins/owo/OwO.min.js"></script>
     <script type="text/javascript" >
         //文字滚动
         (function($){
@@ -102,6 +104,16 @@
                         $(".search-main").toggle();
                     }
                 }
+            });
+            //owo表情
+            var owo = new OwO({
+                logo:'',
+                container: document.getElementsByClassName("OwO")[0],
+                target: document.getElementsByClassName("comment-input-content")[0],
+                api:'${request.contextPath}/resources/plugins/owo/OwO.json',
+                position:'down',
+                width:'100%',
+                maxHeight: '250px'
             });
         })
     </script>
@@ -201,6 +213,126 @@
                         </footer>
                     </div>
                 </article>
+                <!-- 评论区 -->
+                <div class="comments-area">
+                    <div class="comment-respond wow fadeInUp" data-wow-delay="03.s">
+                        <h3 class="comment-reply-title">发表评论
+                            <small>
+                                <a rel="nofollow" href="javascript:void(0);" style="display:none;">取消回复</a>
+                            </small>
+                        </h3>
+                        <form action method="post">
+                            <p class="comment-form-comment"></p>
+                            <div class="OwO"></div>
+                            <textarea class="comment-input-content" name="commentContent" rows="4" tabindex="1"></textarea>
+                            <div class="comment-author-info">
+                                <p class="comment-form-author">
+                                    <label for="author">昵称<span class="required">*</span></label>
+                                    <input type="text" class="comment-input comment-input-who" name="commentAuthor" id="commentAuthor" value="">
+                                </p>
+                                <p class="comment-form-email">
+                                    <label for="email">邮箱<span class="required">*</span></label>
+                                    <input type="text" class="comment-input comment-input-email" name="commentAuthorEmail" id="commentAuthorEmail" value="">
+                                </p>
+                                <p class="comment-form-url">
+                                    <label for="author">网址</label>
+                                    <input type="text" class="comment-input comment-input-website" name="commentAuthorUrl" id="commentAuthorUrl" value="">
+                                </p>
+                            </div>
+                            <p class="form-submit">
+                                <input id="submit" name="submit" type="button" tabindex="5" value="提交评论">
+
+                            </p>
+                        </form>
+                    </div>
+                    <h2 class="comments-title wow fadeInUp" data-wow-delay="0.3s">目前评论：0</h2>
+                    <ul class="comment-list">
+                        <li class="comment even thread-even parent" id="comment-id-1994">
+                            <div class="comment-body">
+                                <div class="comment-author vcard">
+                                    <img class="avatar" src="//gravatar.loli.net/avatar/2b3779b9472cddf89283cb1a0c4b33c1?s=256&d=mm" alt="avatar">
+                                    <strong>
+                                        <a href rel="external nofollow" class="native-list-one-head-name" target="_blank">1</a>
+                                    </strong>
+                                    <span class="comment-meta commentmetadata native-comment-ua">
+                                        <span class="ua-info">
+                                            <span class="ua visible-md-block">Chrome 70.0.3538.102</span>
+                                            <span class="ua visible-md-block">Windows 10</span>
+                                        </span>
+                                        <br>
+                                        <span class="comment-aux">
+                                            <span class="reply">
+                                                <a rel="nofollow" at="1994" class="native-list-one-footer-reback" href="javascript: void(0);">回复</a>
+                                            </span>
+                                            2018-12-12 15:27
+                                        </span>
+                                    </span>
+                                </div>
+                                <p>1111啊哈哈</p>
+                            </div>
+                        </li>
+                        <!-- 回复功能 -->
+                        <li class="comment even thread-even parent" id="comment-id-1995">
+                            <div class="comment-body">
+                                <div class="comment-author vcard">
+                                    <img class="avatar" src="//gravatar.loli.net/avatar/2b3779b9472cddf89283cb1a0c4b33c1?s=256&d=mm" alt="avatar">
+                                    <strong>
+                                        <a href rel="external nofollow" class="native-list-one-head-name" target="_blank">1</a>
+                                    </strong>
+                                    <span class="comment-meta commentmetadata native-comment-ua">
+                                        <span class="ua-info">
+                                            <span class="ua visible-md-block">Chrome 70.0.3538.102</span>
+                                            <span class="ua visible-md-block">Windows 10</span>
+                                        </span>
+                                        <br>
+                                        <span class="comment-aux">
+                                            <span class="reply">
+                                                <a rel="nofollow" at="1995" class="native-list-one-footer-reback" href="javascript: void(0);">回复</a>
+                                            </span>
+                                            2018-12-12 15:27
+                                        </span>
+                                    </span>
+                                </div>
+                                <p>谢谢</p>
+                            </div>
+                            <ul class="comment-list children">
+                                <!-- 回复功能 -->
+                                <li class="comment even thread-even parent" id="comment-id-1996">
+                                    <div class="comment-body">
+                                        <div class="comment-author vcard">
+                                            <img class="avatar" src="//gravatar.loli.net/avatar/2b3779b9472cddf89283cb1a0c4b33c1?s=256&d=mm" alt="avatar">
+                                            <strong>
+                                                <a href rel="external nofollow" class="native-list-one-head-name" target="_blank">1</a>
+                                            </strong>
+                                            <span class="comment-meta commentmetadata native-comment-ua">
+                                        <span class="ua-info">
+                                            <span class="ua visible-md-block">Chrome 70.0.3538.102</span>
+                                            <span class="ua visible-md-block">Windows 10</span>
+                                        </span>
+                                        <br>
+                                        <span class="comment-aux">
+                                            <span class="reply">
+                                                <a rel="nofollow" at="1996" class="native-list-one-footer-reback" href="javascript: void(0);">回复</a>
+                                            </span>
+                                            2018-12-12 15:27
+                                        </span>
+                                    </span>
+                                        </div>
+                                        <p>博客不错，很喜欢</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                    <nav class="navigation pagination" role="navigation">
+                        <div class="nav-links">
+                            <a class="page-numbers current" >1</a>
+                            <a class="page-numbers">2</a>
+                            <a class="page-numbers">3</a>
+                        </div>
+                    </nav>
+                </div>
             </main>
         </div>
 

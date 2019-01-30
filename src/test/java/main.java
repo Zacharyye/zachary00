@@ -15,4 +15,10 @@ public class main {
         double result = Math.pow(10,Math.pow(10,Math.pow(10,Math.pow(10,2.08))));
         System.out.println(result);
     }
+
+    @Test
+    public void testReplace(){
+        System.out.println("fqeqwe\n".replaceAll("\n","\r"));
+
+    }
 }
