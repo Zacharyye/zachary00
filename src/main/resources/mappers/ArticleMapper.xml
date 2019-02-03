@@ -44,8 +44,16 @@
 
     <!-- 查找文章：按指定ID -->
     <select id="findArticleById" parameterType="string" resultType="top.zacharye.entity.Article">
-        SELECT a.title,a.content,c.name AS "category_name",a.created_at,IFNULL(a.support,0) support
+        SELECT a.id,a.title,a.content,c.name AS "category_name",a.created_at,IFNULL(a.support,0) support
         FROM article a JOIN category c ON c.id = a.category_id
+        WHERE a.id = #{id}
+    </select>
+
+    <!-- 查找文章：按指定参数 -->
+    <select id="findArticleByParams" parameterType="map" resultType="top.zacharye.entity.Article">
+        SELECT a.id,a.title,a.content,c.name AS "category_name",a.created_at,IFNULL(a.support,0) support,count(ct.*)/#{pageSize}
+        FROM article a JOIN category c ON c.id = a.category_id
+                       JOIN artcile_comment ct ON ct.article_id = a.id
         WHERE a.id = #{id}
     </select>
 
@@ -82,6 +90,22 @@
       FROM article
       ORDER BY support DESC
       LIMIT 0,10
+    </select>
+
+    <!-- 添加评论 -->
+    <insert id="addComment" parameterType="top.zacharye.entity.Comment">
+        INSERT INTO article_comment (article_id,user_id,content)
+        SELECT #{article_id},id,#{content}
+        FROM login_user
+        WHERE nickname=#{author}
+    </insert>
+
+    <!-- 查找文章评论 -->
+    <select id="findCommentsByArticleId" parameterType="string" resultType="top.zacharye.entity.Comment">
+        SELECT ac.id,ac.content,lu.nickname author,concat(concat(date(created_at)," "),time(created_at)) created_time,
+        FROM article_comment ac,login_user lu
+        WHERE ac.article_id = #{id} AND lu.id = ac.user_id
+        LIMIT #{start},#{pageSize}
     </select>
 </mapper>
 

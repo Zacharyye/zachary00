@@ -180,15 +180,23 @@
         <nav class="top-header">
             <div class="top-nav">
                 <div class="user-login">
-                    <a href="${request.contextPath}/user/login"><i class="fa fa-sign-in"></i></i>登录</a>
+                    <#if (Session.username)??>
+                         ${Session.username}
+                    <#else>
+                        <a href="${request.contextPath}/user/login"><i class="fa fa-sign-in"></i>登录</a>
+                </#if>
                 </div>
                 <div class="menu-topmenu-container">
                     <ul class="top-menu">
                         <li class="menu-item">
-                            <a>
-                                <i></i>
-                                <span class="">关于本站</span>
+                            <#if (Session.username)??>
+                            <a href="${request.contextPath}/user/logout">
+                                <i class="fa fa-sign-out"></i>
+                                <span class="">退出</span>
                             </a>
+                            <#else>
+
+                            </#if>
                         </li>
                     </ul>
                 </div>

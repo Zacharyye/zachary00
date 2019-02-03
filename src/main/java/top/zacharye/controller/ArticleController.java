@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.w3c.dom.Text;
 import top.zacharye.entity.Article;
 import top.zacharye.entity.Category;
+import top.zacharye.entity.Comment;
 import top.zacharye.service.ArticleService;
+import top.zacharye.util.RequestUtil;
 import top.zacharye.util.Result;
 
 import javax.annotation.Resource;
@@ -100,4 +102,30 @@ public class ArticleController {
         request.setAttribute("hotArticles",articles);
         return "articleIndex";
     }
+
+    /**
+     * 添加评论
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/addComment",method = {RequestMethod.POST})
+    @ResponseBody
+    public Result addComment(HttpServletRequest request,HttpServletResponse response){
+        Map<String,Object> map = RequestUtil.getAllRequestParameters(request);
+        return articleService.addComment(map);
+    }
+
+    /**
+     * 查找评论
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/findCommentsByArticleId/{articleId}" , method = {RequestMethod.POST})
+    @ResponseBody
+    public Result findCommentByArticleId (HttpServletRequest request,HttpServletResponse response,@PathVariable String articleId){
+        return articleService.findCommentsByArticleIdV2(articleId);
+    }
+
 }

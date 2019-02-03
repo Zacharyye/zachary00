@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" content="text/html">
     <title>ZAY-${article.title}</title>
@@ -94,15 +94,123 @@
                     totalTagNum: 0,
                     totalReadNum: 0,
                     totalLinkNum: 0,
-                    lastModifiedTime: "2019年1月25日"
+                    lastModifiedTime: "2019年1月25日",
+                    commentList: [],
+                    commentContent: "",
+                    commentAuthor:"${(Session.username)!''}",
+                    commentEmail:"",
+                    commentUrl:""
                 },
                 created: function(){
                     var v = this;
+                    v.init();
+                },
+                computed:{
+                    pages: function(){
+                        var v = this;
+                        var arr = [];
+                        if((v.currentPage == 1) || (v.totalPage - v.currentPage) == 1 ){
+                            arr = [];
+                        } else if((v.currentPage - 1) >= 2 && (v.totalPage - v.currentPage) >= 2 ){
+                            arr = [parseInt(v.currentPage) - 1,v.currentPage,parseInt(v.currentPage) + 1];
+                        } else if((v.currentPage - 1) < 2 && (v.totalPage - v.currentPage) >= 2 ){
+                            arr = [parseInt(v.currentPage), parseInt(v.currentPage) + 1];
+                        } else if((v.currentPage - 1) >= 2 && (v.totalPage - v.currentPage) < 2 ){
+                            arr = [parseInt(v.currentPage) - 1, parseInt(v.currentPage)];
+                        }
+                        return arr;
+                    }
                 },
                 methods: {
+                    init: function(){
+                        var v = this;
+                        v.loadComments();
+                    },
+                    loadComments: function(){
+                        var v = this;
+                        var dataMap = {"currentPage":v.currentPage,"pageSize":v.pageSize};
+                        $.ajax({
+                            url:"${request.ContextPath}/article/findCommentsByArticleId/${articleId}",
+                            type:"post",
+                            dataType:"json",
+                            data:dataMap,
+                            success: function(result){
+                                console.log(result);
+                                if(result.status == 0){
+                                    v.commentList = result.data;
+                                }
+
+                            },
+                            error: function(){
+                                layer.alert("哇，出错了，请重试",{icon:2});
+                            }
+                        });
+                    },
                     showSearchBox : function(){
                         $(".search-main").toggle();
-                    }
+                    },
+                    submitComment: function(){
+                        var v = this;
+                        if(!v.check()){
+                            return;
+                        }
+                        var dataMap = {"commentContent":v.commentContent,"commentAuthor":v.commentAuthor,"commentEmail":v.commentEmail,"commentUrl":v.commentUrl,"articleId":"${article.id}"};
+                        $.ajax({
+                            url:"${request.contextPath}/article/addComment",
+                            type:"post",
+                            dataType:"json",
+                            data: dataMap,
+                            success: function(result){
+                                if(result.status != 0){
+                                    layer.alert("评论失败了，请检查昵称",{icon: 2});
+                                    console.log("${session.username}");
+                                } else {
+                                    layer.alert("评论成功",{icon: 1},function(){
+                                        window.location.reload();
+                                    });
+                                }
+                            },
+                            error: function(){
+                                layer.msg("后台好像投了点小懒哦，刷新一下试试！",{icon: 2},function(){
+                                    window.location.reload();
+                                });
+                            }
+                        });
+                    },
+                    check: function(){
+                        var v = this;
+                        var bool_flag = true;
+                        if(!v.commentContent){
+                            layer.tips("您忘了填写内容~","#commentContent",{tips:[2,"#2f889a"]});
+                            $("#commentContent").focus();
+                            bool_flag = false;
+                        }
+                        return bool_flag;
+                    },
+                    changePage: function(e){
+                        //页面点击事件
+                        var v = this;
+                        v.currentPage = $(e.target).text();
+                        v.init();
+                    },
+                    changeToPreviousPage: function(){
+                        var v = this;
+                        if(v.currentPage == 1){
+                            //啥都不做
+                        } else {
+                            v.currentPage = parseInt(v.currentPage) - 1;
+                            v.init();
+                        }
+                    },
+                    changeToNextPage: function(){
+                        var v = this;
+                        if(v.currentPage == v.totalPage){
+                            //啥都不做
+                        } else {
+                            v.currentPage = parseInt(v.currentPage) + 1;
+                            v.init();
+                        }
+                    },
                 }
             });
             //owo表情
@@ -124,15 +232,23 @@
         <nav class="top-header">
             <div class="top-nav">
                 <div class="user-login">
-                    <a href="${request.contextPath}/user/login">登录</a>
+                    <#if (Session.username)??>
+                        ${Session.username}
+                    <#else>
+                        <a href="${request.contextPath}/user/login"><i class="fa fa-sign-in"></i>登录</a>
+                    </#if>
                 </div>
                 <div class="menu-topmenu-container">
                     <ul class="top-menu">
                         <li class="menu-item">
-                            <a>
-                                <i></i>
-                                <span class="">关于本站</span>
+                            <#if (Session.username)??>
+                            <a href="${request.contextPath}/user/logout">
+                                <i class="fa fa-sign-out"></i>
+                                <span class="">退出</span>
                             </a>
+                            <#else>
+
+                            </#if>
                         </li>
                     </ul>
                 </div>
@@ -224,60 +340,40 @@
                         <form action method="post">
                             <p class="comment-form-comment"></p>
                             <div class="OwO"></div>
-                            <textarea class="comment-input-content" name="commentContent" rows="4" tabindex="1"></textarea>
-                            <div class="comment-author-info">
-                                <p class="comment-form-author">
-                                    <label for="author">昵称<span class="required">*</span></label>
-                                    <input type="text" class="comment-input comment-input-who" name="commentAuthor" id="commentAuthor" value="">
-                                </p>
-                                <p class="comment-form-email">
-                                    <label for="email">邮箱<span class="required">*</span></label>
-                                    <input type="text" class="comment-input comment-input-email" name="commentAuthorEmail" id="commentAuthorEmail" value="">
-                                </p>
-                                <p class="comment-form-url">
-                                    <label for="author">网址</label>
-                                    <input type="text" class="comment-input comment-input-website" name="commentAuthorUrl" id="commentAuthorUrl" value="">
-                                </p>
-                            </div>
+                            <textarea id="commentContent" class="comment-input-content" name="commentContent" rows="4" tabindex="1" v-model="commentContent"></textarea>
+                            <#if (Session.username)??>
+
+                            <#else>
+                                <div class="comment-author-info">
+                                    <p class="comment-form-author">
+                                        <label for="author">昵称<span class="required">*</span></label>
+                                        <input type="text" class="comment-input comment-input-who" name="commentAuthor" id="commentAuthor" v-model="commentAuthor">
+                                    </p>
+                                    <p class="comment-form-email">
+                                        <label for="email">邮箱<span class="required">*</span></label>
+                                        <input type="text" class="comment-input comment-input-email" name="commentAuthorEmail" id="commentAuthorEmail" v-model="commentEmail">
+                                    </p>
+                                    <p class="comment-form-url">
+                                        <label for="author">网址</label>
+                                        <input type="text" class="comment-input comment-input-website" name="commentAuthorUrl" id="commentAuthorUrl" v-model="commentUrl">
+                                    </p>
+                                </div>
+                            </#if>
                             <p class="form-submit">
-                                <input id="submit" name="submit" type="button" tabindex="5" value="提交评论">
+                                <input id="submit" name="submit" type="button" tabindex="5" value="提交评论" @click="submitComment();">
 
                             </p>
                         </form>
                     </div>
                     <h2 class="comments-title wow fadeInUp" data-wow-delay="0.3s">目前评论：0</h2>
                     <ul class="comment-list">
-                        <li class="comment even thread-even parent" id="comment-id-1994">
-                            <div class="comment-body">
-                                <div class="comment-author vcard">
-                                    <img class="avatar" src="//gravatar.loli.net/avatar/2b3779b9472cddf89283cb1a0c4b33c1?s=256&d=mm" alt="avatar">
-                                    <strong>
-                                        <a href rel="external nofollow" class="native-list-one-head-name" target="_blank">1</a>
-                                    </strong>
-                                    <span class="comment-meta commentmetadata native-comment-ua">
-                                        <span class="ua-info">
-                                            <span class="ua visible-md-block">Chrome 70.0.3538.102</span>
-                                            <span class="ua visible-md-block">Windows 10</span>
-                                        </span>
-                                        <br>
-                                        <span class="comment-aux">
-                                            <span class="reply">
-                                                <a rel="nofollow" at="1994" class="native-list-one-footer-reback" href="javascript: void(0);">回复</a>
-                                            </span>
-                                            2018-12-12 15:27
-                                        </span>
-                                    </span>
-                                </div>
-                                <p>1111啊哈哈</p>
-                            </div>
-                        </li>
                         <!-- 回复功能 -->
-                        <li class="comment even thread-even parent" id="comment-id-1995">
+                        <li class="comment even thread-even parent" v-bind:id="'comment-id-' + comment.id" v-for="comment in commentList">
                             <div class="comment-body">
                                 <div class="comment-author vcard">
                                     <img class="avatar" src="//gravatar.loli.net/avatar/2b3779b9472cddf89283cb1a0c4b33c1?s=256&d=mm" alt="avatar">
                                     <strong>
-                                        <a href rel="external nofollow" class="native-list-one-head-name" target="_blank">1</a>
+                                        <a href rel="external nofollow" class="native-list-one-head-name" target="_blank">{{comment.author}}</a>
                                     </strong>
                                     <span class="comment-meta commentmetadata native-comment-ua">
                                         <span class="ua-info">
@@ -289,14 +385,14 @@
                                             <span class="reply">
                                                 <a rel="nofollow" at="1995" class="native-list-one-footer-reback" href="javascript: void(0);">回复</a>
                                             </span>
-                                            2018-12-12 15:27
+                                           {{comment.created_time}}
                                         </span>
                                     </span>
                                 </div>
-                                <p>谢谢</p>
+                                <p>{{comment.content}}</p>
                             </div>
-                            <ul class="comment-list children">
-                                <!-- 回复功能 -->
+                            <!--<ul class="comment-list children">
+                                &lt;!&ndash; 回复功能 &ndash;&gt;
                                 <li class="comment even thread-even parent" id="comment-id-1996">
                                     <div class="comment-body">
                                         <div class="comment-author vcard">
@@ -321,15 +417,18 @@
                                         <p>博客不错，很喜欢</p>
                                     </div>
                                 </li>
-                            </ul>
+                            </ul>-->
                         </li>
-
                     </ul>
-                    <nav class="navigation pagination" role="navigation">
+                    <nav class="navigation pagination" role="navigation" v-if="totalPage >= 2">
                         <div class="nav-links">
-                            <a class="page-numbers current" >1</a>
-                            <a class="page-numbers">2</a>
-                            <a class="page-numbers">3</a>
+                            <a class="page-numbers" v-bind:class="{disabled: currentPage == 1}" @click="changeToPreviousPage();">&lt;</a>
+                            <a class="page-numbers" v-bind:class="{current: currentPage == 1}" @click="changePage($event)">1</a>
+                            <a class="page-numbers" v-if="(currentPage - 1) > 3">...</a>
+                            <a class="page-numbers" v-for="num in pages" v-bind:class="{current: currentPage == num}" @click="changePage($event)">{{num}}</a>
+                            <a class="page-numbers" v-if="(totalPage - 2) > currentPage">...</a>
+                            <a class="page-numbers" v-bind:class="{current: currentPage == totalPage}" @click="changePage($event)">{{totalPage}}</a>
+                            <a class="page-numbers" v-bind:class="{disabled: currentPage == totalPage}"@click="changeToNextPage();">&gt;</a>
                         </div>
                     </nav>
                 </div>

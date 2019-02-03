@@ -91,7 +91,8 @@ public class UserController {
         subject.logout();
         HttpSession session = request.getSession(false);
         request.removeAttribute("username");
-        session.removeAttribute("username");
+        if(session != null)
+            session.removeAttribute("username");
         return "userIndex";
     }
 

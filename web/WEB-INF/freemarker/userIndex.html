@@ -5,6 +5,7 @@
     <title>Index of Zachary's Blog</title>
     <link rel="stylesheet" href="${request.contextPath}/resources/plugins/layui/css/layui.css">
     <link rel="stylesheet" href="${request.contextPath}/resources/css/style.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script type="text/javascript" src="${request.contextPath}/resources/js/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="${request.contextPath}/resources/js/vue.js"></script>
     <script type="text/javascript" src="${request.contextPath}/resources/js/sweetalert2.all.min.js"></script>
@@ -121,7 +122,7 @@
                         }
                     },
                     error:function(){
-                        layer.msg("后台好像投了点小懒哦，重新刷新一下试试！",{icon: 2},function(){
+                        layer.msg("后台好像投了点小懒哦，刷新一下试试！",{icon: 2},function(){
                             window.location.reload();
                         });
                     }
@@ -175,15 +176,19 @@
         <nav class="top-header">
             <div class="top-nav">
                 <div class="user-login">
-                    <a href="${request.contextPath}/user/login">Zachary</a>
+                    <a href="${request.contextPath}/user/login">${Session.username}</a>
                 </div>
                 <div class="menu-topmenu-container">
                     <ul class="top-menu">
                         <li class="menu-item">
+                            <#if (Session.username)??>
                             <a href="${request.contextPath}/user/logout">
-                                <i></i>
+                                <i class="fa fa-sign-out"></i>
                                 <span class="">退出</span>
                             </a>
+                            <#else>
+
+                            </#if>
                         </li>
                     </ul>
                 </div>

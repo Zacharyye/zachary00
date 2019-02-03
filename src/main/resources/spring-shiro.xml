@@ -37,7 +37,12 @@
 		</property>
 	</bean>
 
-	<!-- 配置cacheManager，这里我使用的是自带的缓存管理 -->
+	<!-- 配置sessionManager -->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<property name="globalSessionTimeout" value="1800000"></property>
+	</bean>
+
+	<!-- 配置cacheManager，使用自带的缓存管理 -->
 	<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager"></bean>
 	<!-- 配置authenticator -->
 	<bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">

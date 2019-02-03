@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import top.zacharye.dao.ArticleDao;
 import top.zacharye.entity.Article;
 import top.zacharye.entity.Category;
+import top.zacharye.entity.Comment;
 import top.zacharye.util.Result;
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -93,7 +94,60 @@ public class ArticleServiceImpl implements ArticleService {
         return articleDao.findArticleById(id);
     }
 
+    /**
+     * 根据给定参数查找文章
+     * @param mapData
+     * @return
+     */
+    public Article findArticleByParams(Map<String, Object> mapData) {
+        return null;
+    }
+
+    /**
+     * 查询热门文章
+     * @return
+     */
     public List<Article> findHotArticles() {
         return articleDao.findHotArticles();
     }
+
+    /**
+     * 添加评论
+     * @param dataMap
+     * @return
+     */
+    public Result addComment(Map<String, Object> dataMap) {
+        Result result = null;
+        String author = dataMap.get("commentAuthor") + "";
+        String email = dataMap.get("commentEmail") + "";
+        String article_id = dataMap.get("articleId") + "";
+        String content = dataMap.get("commentContent") + "";
+        Comment comment = new Comment();
+        comment.setAuthor(author);
+        comment.setEmail(email);
+        comment.setArticle_id(Integer.valueOf(article_id));
+        comment.setContent(content);
+        int num = articleDao.addComment(comment);
+        if(num > 0){
+            result = new Result().success();
+        } else {
+            result = new Result().failure();
+        }
+        return result;
+    }
+
+    /**
+     * 根据文章id查询其所有评论
+     * @param id
+     * @return
+     */
+    public List<Comment> findCommentsByArticleId(String id) {
+        return articleDao.findCommentsByArticleId(id);
+    }
+
+    public Result findCommentsByArticleIdV2(String id) {
+        List<Comment> comments = articleDao.findCommentsByArticleId(id);
+        return new Result().success(comments);
+    }
+
 }

@@ -14,6 +14,7 @@ public class Article {
     private Integer support;
     private Timestamp created_at;
     private String created_time;
+    private Integer pageSize;
 
     public String getCreated_time() {
         return created_time;
@@ -113,5 +114,13 @@ public class Article {
 
     public void setSupport(Integer support) {
         this.support = support;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }
